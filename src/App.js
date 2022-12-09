@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import './App.css'
+import Head from './components/Head'
+import Input from './components/Input'
+import Answer from './components/Answer'
+import checkString from './utils/checkString'
 
 function App() {
+  const [inputValue, setInputValue] = useState('')
+  const [errorInput, setErrorInput] = useState(false)
+  const [answerVisibility, setAnswerVisibility] = useState('')
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value)
+  }
+
+  const handleInputFocus = () => {
+    setInputValue('')
+    setErrorInput(false)
+    setAnswerVisibility('')
+  }
+
+  const handleCheckButton = () => {
+    if (!inputValue) {
+      setErrorInput(true)
+      return
+    }
+
+    checkString(inputValue)
+      ? setAnswerVisibility('positive')
+      : setAnswerVisibility('negative')
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Head />
+      <Input
+        inputValue={inputValue}
+        errorInput={errorInput}
+        onInputChange={handleInputChange}
+        onInputFocus={handleInputFocus}
+        onButtonClick={handleCheckButton}
+      />
+      <Answer visibility={answerVisibility} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
