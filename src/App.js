@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 import Head from './components/Head'
 import Input from './components/Input'
@@ -6,42 +6,47 @@ import Answer from './components/Answer'
 import checkString from './utils/checkString'
 
 function App() {
-  const [inputValue, setInputValue] = useState('')
-  const [errorInput, setErrorInput] = useState(false)
-  const [answerVisibility, setAnswerVisibility] = useState('')
+  const [text, setText] = useState('')
+  const [error, setError] = useState(false)
+  const [visibility, setVisibility] = useState('')
+  let inputRef = useRef(null)
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value)
+  const onChangeHandler = (event) => {
+    setText(event.target.value)
+    if (text === '') {
+      setVisibility('')
+    }
   }
 
-  const handleInputFocus = () => {
-    setInputValue('')
-    setErrorInput(false)
-    setAnswerVisibility('')
+  const onFocusHandler = () => {
+    setText('')
+    setError(false)
+    setVisibility('')
   }
 
-  const handleCheckButton = () => {
-    if (!inputValue) {
-      setErrorInput(true)
+  const onSubmitHandler = (event) => {
+    event.preventDefault()
+    inputRef.current.blur()
+    if (!text) {
+      setError(true)
       return
     }
 
-    checkString(inputValue)
-      ? setAnswerVisibility('positive')
-      : setAnswerVisibility('negative')
+    checkString(text) ? setVisibility('positive') : setVisibility('negative')
   }
 
   return (
     <div className="App">
       <Head />
       <Input
-        inputValue={inputValue}
-        errorInput={errorInput}
-        onInputChange={handleInputChange}
-        onInputFocus={handleInputFocus}
-        onButtonClick={handleCheckButton}
+        ref={inputRef}
+        text={text}
+        error={error}
+        onChange={onChangeHandler}
+        onFocus={onFocusHandler}
+        onSubmit={onSubmitHandler}
       />
-      <Answer visibility={answerVisibility} />
+      <Answer visibility={visibility} />
     </div>
   )
 }

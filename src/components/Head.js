@@ -1,4 +1,4 @@
-import '../styles/head.css'
+import './Head.css'
 
 function Head() {
   return <h1>Is this string a palindrome?</h1>

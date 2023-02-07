@@ -1,24 +1,23 @@
-import '../styles/input.css'
+import { forwardRef } from 'react'
 
-function Input({
-  inputValue,
-  errorInput,
-  onInputFocus,
-  onInputChange,
-  onButtonClick,
-}) {
+import './Input.css'
+
+const Input = forwardRef(function Input(props, ref) {
+  const { text, error, onFocus, onChange, onSubmit } = props
+
   return (
-    <div>
+    <form onSubmit={onSubmit}>
       <input
+        ref={ref}
         placeholder="Type your string here"
-        className={errorInput ? 'error' : ''}
-        value={inputValue}
-        onFocus={onInputFocus}
-        onChange={onInputChange}
+        className={error ? 'error' : ''}
+        value={text}
+        onFocus={onFocus}
+        onChange={onChange}
       />
-      <button onClick={onButtonClick}>Check</button>
-    </div>
+      <button type="submit">Check</button>
+    </form>
   )
-}
+})
 
 export default Input
