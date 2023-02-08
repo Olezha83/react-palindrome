@@ -1,9 +1,7 @@
 import { useState, useRef } from 'react'
-import './App.css'
-import Head from './components/Head'
-import Input from './components/Input'
-import Answer from './components/Answer'
+import { Head, Input, Answer } from './components'
 import checkString from './utils/checkString'
+import './App.css'
 
 function App() {
   const [text, setText] = useState('')

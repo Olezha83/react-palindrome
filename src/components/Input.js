@@ -1,5 +1,4 @@
 import { forwardRef } from 'react'
-
 import './Input.css'
 
 const Input = forwardRef(function Input(props, ref) {
